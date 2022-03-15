@@ -104,7 +104,7 @@ class Neuron:
 
 import csv
 
-with open('test.csv', newline='') as f:
+with open('not.csv', newline='') as f:
 	reader = csv.reader(f)
 	res = list(reader)
 
