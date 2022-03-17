@@ -106,6 +106,7 @@ class Neuron:
 		print()
 
 
+import pickle
 import sys
 
 if len(sys.argv) == 2:
@@ -123,11 +124,24 @@ if len(sys.argv) == 2:
 
 		neuron = Neuron(x, y)
 
+		try:
+
+			file = open('weigths', 'rb')
+			neuron.w = pickle.load(file)
+			file.close()
+
+		except:
+			pass
+
 		print("Initial: ", neuron, "\n")
 
 		neuron.train(10000)
 
 		neuron.print_dataset_predictions()
+
+		file = open('weigths', 'wb')
+		pickle.dump(neuron.w, file)
+		file.close()
 
 else:
 	print(
