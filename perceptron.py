@@ -28,7 +28,7 @@ class Neuron:
 			self.w.append(random.uniform(0, 1))
 
 	def train(self, epochs):
-		for epoch in range(epochs):
+		for epoch in range(1, epochs + 1):
 
 			print("Epoch: ", epoch, "\n")
 
@@ -62,7 +62,9 @@ class Neuron:
 				self.x[n_row].pop()
 
 			if error_in_epoch == False:
-				print("Se han corregido exitosamente todos los pesos\n")
+				print(
+				    "Se han corregido exitosamente todos los pesos en la generación ",
+				    epoch, "\n")
 				return
 
 			self.print_dataset_predictions()
