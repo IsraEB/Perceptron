@@ -30,6 +30,8 @@ class Neuron:
 	def train(self, epochs):
 		for epoch in range(epochs):
 
+			print("Epoch: ", epoch, "\n")
+
 			error_in_epoch = False
 
 			for n_row in range(len(self.x)):
@@ -102,21 +104,30 @@ class Neuron:
 		print()
 
 
-import csv
+import sys
 
-with open('not.csv', newline='') as f:
-	reader = csv.reader(f)
-	res = list(reader)
+if len(sys.argv) == 2:
 
-	res = [list(map(int, i)) for i in res]
+	import csv
 
-	x = [row[:-1] for row in res]
-	y = [row[-1] for row in res]
+	with open(sys.argv[1] + '.csv', newline='') as f:
+		reader = csv.reader(f)
+		res = list(reader)
 
-	neuron = Neuron(x, y)
+		res = [list(map(int, i)) for i in res]
 
-	print("Initial: ", neuron, "\n")
+		x = [row[:-1] for row in res]
+		y = [row[-1] for row in res]
 
-	neuron.train(10000)
+		neuron = Neuron(x, y)
 
-	neuron.print_dataset_predictions()
+		print("Initial: ", neuron, "\n")
+
+		neuron.train(10000)
+
+		neuron.print_dataset_predictions()
+
+else:
+	print(
+	    "De como argumento solo el nombre de un archivo csv con los datos de entrenamiento"
+	)
