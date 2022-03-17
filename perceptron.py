@@ -125,11 +125,9 @@ if len(sys.argv) == 2:
 		neuron = Neuron(x, y)
 
 		try:
-
 			file = open('weigths', 'rb')
 			neuron.w = pickle.load(file)
 			file.close()
-
 		except:
 			pass
 
