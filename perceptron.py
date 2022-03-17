@@ -1,13 +1,26 @@
+import pickle
 import random
+import sys
+
+WEIGHTS_FILENAME = "weights"
+
+
+def load_weights(neuron):
+	file = open(WEIGHTS_FILENAME, 'rb')
+	neuron.w = pickle.load(file)
+	file.close()
+
+
+def save_weights(neuron):
+	file = open(WEIGHTS_FILENAME, 'wb')
+	pickle.dump(neuron.w, file)
+	file.close()
 
 
 class Neuron:
 
 	def __init__(self, x, y):
 		self.a = 0.1
-
-		self.x = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
-		self.y = [-1, 1, 1, 1]
 
 		self.x = x
 		self.y = y
@@ -35,31 +48,29 @@ class Neuron:
 			error_in_epoch = False
 
 			for n_row in range(len(self.x)):
+
+				f_x_net = self.predict(self.x[n_row])
+				n_error = self.y[n_row] - f_x_net
+
 				self.x[n_row].append(-1)
 
 				print(self.x[n_row])
 				print("Old: ", self.__str__())
-
-				self.x[n_row].pop()
-				f_x_net = self.predict(self.x[n_row])
-				self.x[n_row].append(-1)
-
 				print("f(x_net): ", f_x_net)
 				print("S: ", self.y[n_row])
-
-				n_error = self.y[n_row] - f_x_net
 				print("Error: ", n_error)
 
 				for n_column in range(len(self.x[n_row])):
 					self.w[n_column] = self.w[n_column] + self.a * (
 					    n_error) * self.x[n_row][n_column]
+				save_weights(self)
+
+				self.x[n_row].pop()
 
 				print("New: ", self.__str__() + "\n")
 
 				if n_error != 0:
 					error_in_epoch = True
-
-				self.x[n_row].pop()
 
 			if error_in_epoch == False:
 				print(
@@ -106,8 +117,19 @@ class Neuron:
 		print()
 
 
-import pickle
-import sys
+def predict_user_data(neuron):
+	print("Hora de hacer predicciones!\n")
+
+	while (True):
+		x = []
+		for i in range(len(neuron.x[0])):
+			print("Digite el valor de x" + str(i + 1) + ": ", end="")
+			x.append(int(input()))
+
+		print("El resultado de la predicción es: ", neuron.predict(x), "\n")
+
+	pass
+
 
 if len(sys.argv) == 2:
 
@@ -125,9 +147,7 @@ if len(sys.argv) == 2:
 		neuron = Neuron(x, y)
 
 		try:
-			file = open('weigths', 'rb')
-			neuron.w = pickle.load(file)
-			file.close()
+			load_weights(neuron)
 		except:
 			pass
 
@@ -137,9 +157,9 @@ if len(sys.argv) == 2:
 
 		neuron.print_dataset_predictions()
 
-		file = open('weigths', 'wb')
-		pickle.dump(neuron.w, file)
-		file.close()
+		save_weights(neuron)
+
+		predict_user_data(neuron)
 
 else:
 	print(
