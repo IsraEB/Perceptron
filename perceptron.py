@@ -31,7 +31,7 @@ class Neuron:
 				row_length = len(row)
 			elif row_length != len(row):
 				print(
-				    "Error, el número de columnas de entrada no son homogeneas"
+				    "Error, el número de columnas de entrada no son homogéneas"
 				)
 
 		self.w = []
