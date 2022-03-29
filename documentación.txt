@@ -1,5 +1,7 @@
 Comando para ejecutar
-	python perceptron.py $ARCHIVO [newWeights]
+	python perceptron.py $ARCHIVO $LEARNING_RATIO $MAX_EPOCHS [new_weights]
 
 El argumento $ARCHIVO es el nombre de un archivo csv (Solo el nombre sin extensión, ya que solo se aceptan archivos CSV)
-Se puede agregar como segundo argumento newWeights, para ignorar los valores en el archivo weights, en caso de existir
+El argumento $LEARNING_RATIO es el ratio de aprendizaje de la neurona
+El argumento $MAX_EPOCHS es el numero máximo de generaciones que hará la neurona para entrenarse
+Se puede agregar el argumento extra new_weights, para generar nuevos valores aleatorios de los pesos aunque existan valores guardados en el archivo weights

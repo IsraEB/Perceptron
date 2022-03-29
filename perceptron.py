@@ -1,6 +1,7 @@
 import pickle
 import random
 import sys
+from ast import Try
 
 WEIGHTS_FILENAME = "weights"
 
@@ -18,11 +19,12 @@ def save_weights(neuron):
 
 
 class Neuron:
-	def __init__(self, x, y):
-		self.a = 0.1
+	def __init__(self, x, y, a):
 
 		self.x = x
 		self.y = y
+
+		self.a = a
 
 		row_length = None
 
@@ -130,11 +132,22 @@ def predict_user_data(neuron):
 	pass
 
 
-if len(sys.argv) >= 2:
+try:
+	filename = sys.argv[1] if len(sys.argv) >= 2 else None
+	learning_rate = float(sys.argv[2]) if len(sys.argv) >= 3 else None
+	epochs = int(float(sys.argv[3])) if len(sys.argv) >= 4 else None
+	new_weights = True if "new_weights" in sys.argv else False
+except:
+	filename = None
+	learning_rate = None
+	epochs = None
+	new_weights = False
+
+if filename != None and learning_rate != None and epochs != None:
 
 	import csv
 
-	with open(sys.argv[1] + '.csv', newline='') as f:
+	with open(filename + '.csv', newline='') as f:
 		reader = csv.reader(f)
 		res = list(reader)
 
@@ -143,9 +156,9 @@ if len(sys.argv) >= 2:
 		x = [row[:-1] for row in res]
 		y = [row[-1] for row in res]
 
-		neuron = Neuron(x, y)
+		neuron = Neuron(x, y, learning_rate)
 
-		if len(sys.argv) != 3 or sys.argv[2] != 'newWeights':
+		if not new_weights:
 			try:
 				load_weights(neuron)
 			except:
@@ -153,7 +166,7 @@ if len(sys.argv) >= 2:
 
 		print("Initial: ", neuron, "\n")
 
-		neuron.train(10000)
+		neuron.train(epochs)
 
 		neuron.print_dataset_predictions()
 
@@ -162,6 +175,4 @@ if len(sys.argv) >= 2:
 		predict_user_data(neuron)
 
 else:
-	print(
-	    "De como argumento solo el nombre de un archivo csv con los datos de entrenamiento"
-	)
+	print("Argumentos incorrectos, lea la documentación")
