@@ -18,7 +18,6 @@ def save_weights(neuron):
 
 
 class Neuron:
-
 	def __init__(self, x, y):
 		self.a = 0.1
 
@@ -131,7 +130,7 @@ def predict_user_data(neuron):
 	pass
 
 
-if len(sys.argv) == 2:
+if len(sys.argv) >= 2:
 
 	import csv
 
@@ -146,10 +145,11 @@ if len(sys.argv) == 2:
 
 		neuron = Neuron(x, y)
 
-		try:
-			load_weights(neuron)
-		except:
-			pass
+		if len(sys.argv) != 3 or sys.argv[2] != 'newWeights':
+			try:
+				load_weights(neuron)
+			except:
+				pass
 
 		print("Initial: ", neuron, "\n")
 
