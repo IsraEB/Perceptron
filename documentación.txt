@@ -1,0 +1,5 @@
+Comando para ejecutar
+	python perceptron.py $ARCHIVO [newWeights]
+
+El argumento $ARCHIVO es el nombre de un archivo csv (Solo el nombre sin extensión, ya que solo se aceptan archivos CSV)
+Se puede agregar como segundo argumento newWeights, para ignorar los valores en el archivo weights, en caso de existir
